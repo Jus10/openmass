@@ -1,0 +1,61 @@
+{#
+/**
+ * @file
+ * Theme override to display the Full view mode of the Action content type.
+ *
+ * Uses 'extend' methods from http://www.stevector.com/2013/10/make-your-drupal-8-theme-easier-to-maintain-with-this-one-weird-trick-twigs-extends-concept/
+ */
+ #}
+{%
+set backgroundImage = mobile800x400_image_url ?? hero800x400_image_url
+%}
+{#
+  Hiding breadcrumb since we will want these breadcrumbs back in the future
+  refs https://jira.state.ma.us/browse/MGRP-1767
+#}
+{#
+set breadcrumbs = {
+  "light": "",
+  "links": [{
+  "text": label|field_value,
+  "href": url
+  }]
+}
+#}
+{%
+set pageBanner = {
+  'icon': icon_path,
+  'title': label|field_value,
+  'bgNarrow': backgroundImage,
+  'bgWide': file_url(node.field_featured_image.entity.fileuri),
+}
+%}
+{%
+set sectionThreeUp = {
+  'title': "",
+  'centered': 'true',
+  'sections': sections
+}
+%}
+
+{% extends 'node.html.twig' %}
+
+{# Take our blocks from node.html.twig and extend them to get our wrapping divs #}
+{% block preContent %}
+  {# Breadcrumbs have been descoped from pilot, but they'd go here #}
+  {# include "@organisms/by-template/breadcrumbs.twig"#}
+  {% include "@organisms/by-template/page-banner.twig" with pageBanner %}
+{% endblock %}
+
+{# This is going to get replaced with real views and content. #}
+{% block pageContent %}
+  {% include "@organisms/by-author/sections-three-up.twig" %}
+{% endblock %}
+
+{% block postContent %}
+  {% if content.field_image_credit is not empty %}
+    {{ content.field_image_credit }}
+  {% endif %}
+  {% include "@organisms/by-template/breadcrumbs.twig" %}
+{% endblock %}
+

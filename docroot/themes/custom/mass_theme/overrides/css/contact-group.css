@@ -1,0 +1,11 @@
+/**
+ * Override css for the contact groups that are siblings but don't have a label.
+ */
+
+.ma__contact-group + .ma__contact-group {
+  padding-top: 0;
+}
+
+.ma__contact-group + .ma__contact-group .ma__contact-group__name {
+  padding-top: 20px;
+}

@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Theme override to display the Teaser view mode of the Topic content type.
+ *
+ * These are topic cards.
+ */
+ #}
+
+{%
+set sectionLinks = {
+  'catIcon': {
+    'icon': icon,
+    'small': true
+  },
+  'title':  {
+    'href': url,
+    'text': label|field_value
+  },
+  'description': content.field_lede,
+  'links': links
+}
+%}
+{% include "@molecules/section-links.twig" with sectionLinks %}

@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Partial for action finder. To be included at the node level.
+ */
+#}
+{% if desktop_image is not empty or mobile_image is not empty %}
+<style>
+  .ma__action-finder {
+    background-image: url('{{ mobile_image }}');
+  }
+
+  @media (min-width: 801px) {
+    .ma__action-finder {
+      background-image: url('{{ desktop_image }}');
+    }
+  }
+</style>
+{% endif %}
+<section class="ma__action-finder" >
+  <div class="ma__action-finder__container">
+    {{ drupal_view('subtopics_all_actions', 'block_1') }}
+  </div>
+</section>

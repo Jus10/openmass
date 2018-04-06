@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Contains mass_search.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function mass_search_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the mass_search module.
+    case 'help.page.mass_search':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Embeds google custom search engine elements (forms, results, promotions, autocomplete) using javascript') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Define twig template for search results route, called by DefaultController.
+ */
+function mass_search_theme() {
+  return [
+    'mass_search' => [
+      'variables' => ['query' => NULL],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Attach module mass_search global js + css for google api js and
+ * custom search header form on every page.
+ */
+function mass_search_page_attachments(array &$attachments) {
+
+  // Unconditionally attach the google js api external script reference
+  // (loads in head).
+  $attachments['#attached']['library'][] = 'mass_search/google-jsapi';
+
+  // Unconditionally attach the search form js + css globally.
+  $attachments['#attached']['library'][] = 'mass_search/google-cse';
+}

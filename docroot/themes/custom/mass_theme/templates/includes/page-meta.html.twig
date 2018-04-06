@@ -1,0 +1,72 @@
+{#
+  SITE LEVEL DATA:
+  WEBSITE
+  - add to home (front) page only.
+  - about can be added when its content is ready.
+  - keywords can be added when its content is ready.
+#}
+{% if pageMetaData.schemaPageType == "Home" %}
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "WebSite",
+          "url": "{{ pageMetaData.urlDomain }}",
+          "name": "{{ pageMetaData.siteName }}",
+          "alternateName": "{{ pageMetaData.siteAltName }}", {% if pageMetaData.siteDescription %}
+          "about": "{{ pageMetaData.siteDescription }}",{% endif %}
+          "copyrightHolder": "{{ pageMetaData.siteCopyright }}", {% if pageMetaData.siteKeywords %}
+          "keywords": "{{ pageMetaData.siteKeywords }}",{% endif %}
+          "potentialAction": {
+             "@type": "SearchAction",
+             "target": "{{ pageMetaData.urlDomain }}/search?q={search_term_string}",
+             "query-input": "required name=search_term_string"}
+        }
+    </script>
+{% endif %}
+{#
+  SITE LEVEL COMMON DATA:
+  ORGANIZATION
+  - alternateName can be added later if helpful.
+#}
+    <script type="application/ld+json">
+      {
+          "@context": "http://schema.org",
+          "@type": "Organization",
+          "@id": "{{ pageMetaData.id }}",
+          "url": "{{ pageMetaData.urlDomain }}",
+          {% if pageMetaData.logoSrc %}"logo": "{{ pageMetaData.urlDomain ~ '/' ~ directory ~ pageMetaData.logoSrc }}",{% endif %}
+          "name": "{{ pageMetaData.orgName }}"{% if pageMetaData.socialMediaLinks %},
+          "sameAs":
+            {{ pageMetaData.socialMediaLinks|raw }}
+            {% endif %}
+      }
+    </script>
+{#
+  SITE LEVEL COMMON DATA:
+  PAGE STRUCTURE - they match with the ids assigned to the area elements in the
+  <body>.
+  - header area
+  - footer area
+  - main navigation area
+#}
+    <script type="application/ld+json">
+      {
+          "@context": "http://schema.org",
+          "@type": "WPHeader",
+          "@id": "{{ pageMetaData.urlDomain ~ pageMetaData.urlPath ~ '#header' }}"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+          "@context": "http://schema.org",
+          "@type": "WPFooter",
+          "@id": "{{ pageMetaData.urlDomain ~ pageMetaData.urlPath ~ '#footer' }}"
+      }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "SiteNavigationElement",
+          "@id": "{{ pageMetaData.urlDomain ~ pageMetaData.urlPath ~ '#main-navigation'}}"
+        }
+    </script>
